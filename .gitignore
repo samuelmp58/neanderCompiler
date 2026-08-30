@@ -1,0 +1,7 @@
+*.o
+*.out
+*.elf
+*.bin
+
+nc
+a.out

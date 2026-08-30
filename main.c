@@ -6,7 +6,7 @@
 #include <time.h>
 #include <unistd.h>
 
-/* ----- Suportes -----
+/* ----- Suporte -----
  *
  * if, else if, else
  * 

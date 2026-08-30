@@ -47,7 +47,7 @@ static int allocate_temp(void) {
       return i;
     }
   }
-  fprintf(stderr, "Error: Temporary limit exceeded.\n");
+  fprintf(stderr, "Erro: Limite de temporarias excedido.\n");
   return -1;
 }
 
@@ -70,7 +70,7 @@ static void reset_all_temps(void) {
   memset(temp_in_use, 0, sizeof(temp_in_use));
 }
 
-// Helpers
+// Auxiliares
 static int is_variable(const char *str) {
   if (!str || str[0] == '\0')
     return 0;
@@ -98,7 +98,7 @@ static int consume(Parser *parser, char expected) {
 
 static void syntax_error(Parser *parser, const char *message) {
   if (!parser->error) {
-    fprintf(stderr, "Syntax error at position %zu: %s\n", parser->position,
+    fprintf(stderr, "Erro de sintaxe na posicao %zu: %s\n", parser->position,
             message);
   }
   parser->error = 1;
@@ -107,7 +107,7 @@ static void syntax_error(Parser *parser, const char *message) {
 static char *copy_text(const char *start, size_t length) {
   char *text = malloc(length + 1);
   if (text == NULL) {
-    fprintf(stderr, "Error: Out of memory.\n");
+    fprintf(stderr, "Erro: Memoria insuficiente.\n");
     return NULL;
   }
   memcpy(text, start, length);
@@ -118,7 +118,7 @@ static char *copy_text(const char *start, size_t length) {
 static AST *allocate_node(NodeType type) {
   AST *node = calloc(1, sizeof(AST));
   if (node == NULL) {
-    fprintf(stderr, "Error: Out of memory.\n");
+    fprintf(stderr, "Erro: Memoria insuficiente.\n");
     return NULL;
   }
   node->type = type;
@@ -189,7 +189,7 @@ static AST *parse_primary(Parser *parser) {
       return NULL;
 
     if (!consume(parser, ')')) {
-      syntax_error(parser, "expected ')'");
+      syntax_error(parser, "esperado ')'");
       destroy_ast(node);
       return NULL;
     }
@@ -217,7 +217,7 @@ static AST *parse_primary(Parser *parser) {
     }
 
     if (!has_digit) {
-      syntax_error(parser, "invalid number");
+      syntax_error(parser, "numero invalido");
       return NULL;
     }
     return create_value_node(parser->input + start, parser->position - start);
@@ -234,7 +234,7 @@ static AST *parse_primary(Parser *parser) {
     return create_value_node(parser->input + start, parser->position - start);
   }
 
-  syntax_error(parser, "expected number, variable, or '('");
+  syntax_error(parser, "esperado numero, variavel ou '('");
   return NULL;
 }
 
@@ -511,7 +511,7 @@ static void generate_ast_code(AST *node) {
 void process_operation(const char *expression, const char *var_name,
                        bool declare_in_vars) {
   if (expression == NULL || expression[0] == '\0') {
-    fprintf(stderr, "Error: Empty expression.\n");
+    fprintf(stderr, "Erro: Expressao vazia.\n");
     return;
   }
 
@@ -524,7 +524,7 @@ void process_operation(const char *expression, const char *var_name,
   }
 
   if (peek(&parser) != '\0') {
-    syntax_error(&parser, "unexpected character");
+    syntax_error(&parser, "caractere inesperado");
     destroy_ast(root);
     return;
   }

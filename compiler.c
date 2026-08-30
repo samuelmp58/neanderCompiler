@@ -5,15 +5,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-//static int varCounter = 0;
-static int lineCounter = -3;  // pra saber a linha que deu erro no bagulho
+// static int varCounter = 0;
+static int lineCounter = -3; // pra saber a linha que deu erro no bagulho
 static Token *var_vec = NULL;
-static int if_counter = 0;    // pra poder diferenciar o nome da label na hora do jmp
+static int if_counter =
+    0; // pra poder diferenciar o nome da label na hora do jmp
 static int while_counter = 0; // mesma coisa
 FILE *file_out = NULL;
 
 void compiler_init(void) {
-  //varCounter = 0;
+  // varCounter = 0;
   lineCounter = -3;
   var_vec = (Token *)vector_create();
 }
@@ -148,9 +149,9 @@ Token syntax(FILE *f) {
       return (Token){print, 0, ""};
     } else if (strcmp(buffer, "if") == 0) {
       return (Token){_if, 0, ""};
-    }else if (strcmp(buffer, "while") == 0) {
-	  return (Token){_while, 0, ""};
-	}else {
+    } else if (strcmp(buffer, "while") == 0) {
+      return (Token){_while, 0, ""};
+    } else {
       Token tk;
       tk.type = id;
       tk.val = 0;
@@ -347,10 +348,10 @@ void compile_statement(Token *tk, FILE *file) {
     emit_fmt(SECTION_MAIN, buffer);
 
     // --- CADEIA ELSE IF / ELSE ---
-    *tk = syntax(file); // Avança após a '}' do IF
+    *tk = syntax(file); // }
 
     while (tk->type == id && strcmp(tk->name, "else") == 0) {
-      *tk = syntax(file); // Consome 'else'
+      *tk = syntax(file); // else
 
       if (tk->type == _if) {
         // === ELSE IF ===
@@ -364,7 +365,7 @@ void compile_statement(Token *tk, FILE *file) {
         snprintf(lbl_next, sizeof(lbl_next), "_elseif_%d_%d", current_if,
                  elseif_counter);
 
-        *tk = syntax(file); // Consome 'if'
+        *tk = syntax(file); // if
         if (strcmp(tk->name, "(") != 0) {
           printf("erro linha %d -> Esperado '(' apos 'else if'...\n",
                  lineCounter);
@@ -456,10 +457,10 @@ void compile_statement(Token *tk, FILE *file) {
       return;
     }
 
-	// Guardando o nome
+    // Guardando o nome
     char varName[32];
     strcpy(varName, tk->name);
-    Token varToken = *tk; 
+    Token varToken = *tk;
 
     *tk = syntax(file); // = ou ;
 
@@ -507,7 +508,7 @@ void compile_statement(Token *tk, FILE *file) {
     if (tk->type == semi)
       *tk = syntax(file);
   }
-  
+
   // ==========================================================
   // TRATAMENTO DE WHILE
   // ==========================================================

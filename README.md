@@ -8,7 +8,11 @@ Um compilador simples para **Neander / Neanderlin**. Transpila o código de alto
 
 ## Funcionalidades
 - Suporte a variáveis declaradas e inicializadas (`var x = 2;`).
-- Expressões com adição (`+`) e subtração (`-`).
+- Expressões matemáticas.
 - if, elseif, else
 - while
 - print
+
+### Observações
+- Toda manipulação de valor em variável se deve usar **var** antes.
+- Sem suporte a && e ||.
